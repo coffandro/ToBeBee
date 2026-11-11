@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://drb8okp18r2ah"]
+
+[ext_resource type="PackedScene" uid="uid://cbdtlxdyx2jy4" path="res://world/beehive/beehive.glb" id="1_gj8ac"]
+[ext_resource type="Texture2D" uid="uid://bxc0jwxqpc3kh" path="res://world/beehive/beehive_beehive.png" id="2_3l8ta"]
+[ext_resource type="PackedScene" uid="uid://ktdalbjh2scp" path="res://world/fog.tscn" id="3_4gfqa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_gj8ac"]
+size = Vector3(3, 4.5, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_3l8ta"]
+size = Vector3(1.1, 1.3, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_gj8ac"]
+size = Vector3(1, 1.75, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4gfqa"]
+resource_name = "Material"
+cull_mode = 2
+albedo_texture = ExtResource("2_3l8ta")
+roughness = 0.5
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_3l8ta"]
+points = PackedVector3Array(0.5, -0.875, -0.5, 0.5, -0.875, 0.5, 0, 0.875, 0.5, 0, 0.875, -0.5, -0.5, -0.875, -0.5, -0.5, -0.875, 0.5)
+
+[node name="Beehive" type="Node3D"]
+
+[node name="beehive" parent="." instance=ExtResource("1_gj8ac")]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("BoxShape3D_gj8ac")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.05, 0.1, 0)
+shape = SubResource("BoxShape3D_3l8ta")
+
+[node name="StaticBody3D2" type="StaticBody3D" parent="."]
+transform = Transform3D(0.275637, -0.961262, 0, 0.961262, 0.275637, 0, 0, 0, 1, -1.8, -0.78, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="StaticBody3D2"]
+mesh = SubResource("PrismMesh_gj8ac")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_4gfqa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D2"]
+shape = SubResource("ConvexPolygonShape3D_3l8ta")
+
+[node name="Fog" parent="." instance=ExtResource("3_4gfqa")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1.5, 0, 1, 0, -4.37114e-08, -1.35, 0, 0)

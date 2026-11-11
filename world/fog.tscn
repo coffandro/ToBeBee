@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://ktdalbjh2scp"]
+
+[ext_resource type="Shader" uid="uid://l7ja0fa67xf4" path="res://materials/fog.gdshader" id="1_kbfj0"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_6u7q5"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_11jws"]
+render_priority = 0
+shader = ExtResource("1_kbfj0")
+shader_parameter/flash_color = Color(0, 0, 0, 1)
+shader_parameter/alpha = 0.75
+
+[node name="Fog" type="Node3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.2)
+mesh = SubResource("QuadMesh_6u7q5")
+surface_material_override/0 = SubResource("ShaderMaterial_11jws")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+mesh = SubResource("QuadMesh_6u7q5")
+surface_material_override/0 = SubResource("ShaderMaterial_11jws")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_6u7q5")
+surface_material_override/0 = SubResource("ShaderMaterial_11jws")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+mesh = SubResource("QuadMesh_6u7q5")
+surface_material_override/0 = SubResource("ShaderMaterial_11jws")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
+mesh = SubResource("QuadMesh_6u7q5")
+surface_material_override/0 = SubResource("ShaderMaterial_11jws")

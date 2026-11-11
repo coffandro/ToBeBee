@@ -1,27 +1,37 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt6475md0h7sk"]
+[gd_scene load_steps=7 format=3 uid="uid://bt6475md0h7sk"]
 
 [ext_resource type="Script" uid="uid://bry45k2epjira" path="res://player/follow_node.gd" id="1_g1dw6"]
 [ext_resource type="Script" uid="uid://c7pfob4ct17y5" path="res://player/player.gd" id="1_oul6g"]
+[ext_resource type="Script" uid="uid://ihphflu8cart" path="res://player/player_camera.gd" id="1_yw30f"]
 [ext_resource type="PackedScene" uid="uid://f2hdgflu3i3v" path="res://player/bee.glb" id="3_g1dw6"]
+[ext_resource type="PackedScene" uid="uid://ex8rxsxcg52c" path="res://ui/hud.tscn" id="3_qjkh3"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kqu6x"]
 
 [node name="Player" type="Node3D"]
 
-[node name="Player" type="CharacterBody3D" parent="."]
+[node name="Player" type="CharacterBody3D" parent="." node_paths=PackedStringArray("_camera", "collect_label", "energy_bar")]
 script = ExtResource("1_oul6g")
+_camera = NodePath("CameraPivot/SpringArm3D/Camera3D")
+collect_label = NodePath("CameraPivot/SpringArm3D/Camera3D/HUD/CollectedLabel")
+energy_bar = NodePath("CameraPivot/SpringArm3D/Camera3D/HUD/EnergyBar")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Player"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_kqu6x")
 
-[node name="Camera3D" type="Camera3D" parent="Player" node_paths=PackedStringArray("target")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 6)
-script = ExtResource("1_g1dw6")
-target = NodePath("..")
-offset = Vector3(0, 2, 6)
-pos_min = Vector3(-10, 1, -10)
-pos_max = Vector3(10, 5, 10)
+[node name="CameraPivot" type="Node3D" parent="Player" node_paths=PackedStringArray("target")]
+script = ExtResource("1_yw30f")
+target = NodePath("../MeshPivot")
+
+[node name="SpringArm3D" type="SpringArm3D" parent="Player/CameraPivot"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -7)
+spring_length = 2.0
+
+[node name="Camera3D" type="Camera3D" parent="Player/CameraPivot/SpringArm3D"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="HUD" parent="Player/CameraPivot/SpringArm3D/Camera3D" instance=ExtResource("3_qjkh3")]
 
 [node name="Mesh" type="Node3D" parent="Player" node_paths=PackedStringArray("target")]
 script = ExtResource("1_g1dw6")
@@ -32,3 +42,5 @@ target = NodePath("../MeshPivot")
 transform = Transform3D(-2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 0, 0, 0)
 
 [node name="MeshPivot" type="Node3D" parent="Player"]
+
+[editable path="Player/CameraPivot/SpringArm3D/Camera3D/HUD"]
